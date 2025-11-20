@@ -1,189 +1,176 @@
-✨ Face Detection & Crowd Management System
+# 👁️ Face Detection & Crowd Management  
+### Faster R-CNN (Custom Trained) + YOLOv8 + Streamlit UI
 
-AI-powered application that detects faces, counts people, and estimates crowd levels using YOLOv8 and your custom-trained Faster R-CNN model.
+This project is an **end-to-end AI system** for:
 
-📌 Project Description
+- 🔍 **Face Detection**
+- 👥 **Crowd Counting**
+- 🚦 **Crowd Level Estimation** (Empty / Low / Medium / High)
 
-The Face Detection & Crowd Management System is a complete end-to-end AI solution that identifies faces in images or webcam snapshots and determines overall crowd density. It blends real-time performance from YOLOv8 with the precision of your own Faster R-CNN model trained on FDDB.
+It combines:
+- **Custom-trained Faster R-CNN** (trained on the FDDB dataset)  
+- **YOLOv8** for fast real-time detection  
+- **Streamlit** for an interactive UI  
 
-This tool is ideal for:
+---
 
-Public surveillance
+## 🖼️ **Project Output Screenshot**
 
-Event management
+> Replace the image path below with your own screenshot uploaded to the GitHub repo.
 
-School/college monitoring
+![Output Screenshot](assets/output.png)
 
-Smart attendance systems
+*(Example: detections with bounding boxes + people count + crowd level)*
 
-Safety & occupancy control
+---
 
-Built using Streamlit, it offers a clean, interactive UI that works on any device.
+## 🚀 **Features**
 
-🚀 Features
-🔍 Face Detection
+### 🧠 **1. Dual Model Support**
+- **YOLOv8 (Fast)** → great for larger crowds & fast detection  
+- **Faster R-CNN (Your custom model)** → trained from scratch on FDDB  
 
-Detect faces using:
+### 📷 **2. Webcam Snapshot Detection**
+Uses `st.camera_input` to capture a webcam image and detect:
 
-YOLOv8 (Fast) → real-time, best for large crowds
+- Number of faces  
+- Crowd level  
+- Bounding boxes  
 
-Faster R-CNN (Your Model) → custom-trained, accurate
+### 📂 **3. Image Upload Detection**
+Upload any `.jpg/.png` and get:
 
-👥 People Counting
+- Face count  
+- Crowd level  
+- Downloadable processed image  
 
-Automatically counts the number of detected faces.
+### 👥 **4. Crowd Management Logic**
 
-🚦 Crowd Level Estimation
+Crowd level is decided by face count:
 
-Classifies the crowd into:
+| Faces Detected | Crowd Level |
+|----------------|-------------|
+| `0`            | Empty       |
+| `1–4`          | Low         |
+| `5–14`         | Medium      |
+| `15+`          | High        |
 
-Empty
+You can tune these thresholds in `get_crowd_level()`.
 
-Low
+---
 
-Medium
+## 📦 **Tech Stack**
 
-High
+- Python  
+- PyTorch  
+- TorchVision (Faster R-CNN)  
+- YOLOv8 (Ultralytics)  
+- OpenCV  
+- NumPy  
+- Streamlit  
 
-(using adjustable thresholds)
+---
 
-🎥 Webcam Snapshot Support
+## 📁 **Project Structure**
 
-Capture an image directly from your webcam and run detection.
+face-detection-project/
+├── data/
+│ └── fddb/ # FDDB dataset (ignored in git)
+│ ├── originalPics/
+│ └── ellipseList.txt
+├── outputs/
+│ └── checkpoints/
+│ └── facercnn.pth # Your trained model (ignored in git)
+├── src/
+│ ├── datasets.py
+│ ├── transforms.py
+│ ├── utils.py
+│ ├── fddb_to_coco.py
+│ ├── train.py
+│ └── face_detection_app.py # Streamlit App (with Crowd Management)
+├── scripts/
+│ └── make_sample_ellipselist.py
+├── requirements.txt
+└── README.md
 
-📂 Image Upload Support
+yaml
+Copy code
 
-Upload photos for detection and crowd analysis.
+---
 
-💾 Download Results
+## 🔧 **Installation Guide**
 
-Save the processed image with bounding boxes.
-
-🎨 Streamlit UI
-
-Dark-themed, clean, and responsive interface.
-
-🖼️ Sample Output
-
-Real detection with face count and crowd level.
-
-(Your screenshot: 8 faces detected → Medium crowd)
-
-🛠️ Tech Stack
-
-Frontend: Streamlit
-
-Backend: Python 3.11
-
-Models: YOLOv8 + Faster R-CNN
-
-Libraries:
-
-PyTorch / TorchVision
-
-Ultralytics YOLO
-
-NumPy
-
-OpenCV
-
-Pillow
-
-📦 Installation Guide
-Step 1: Clone the Repository
-git clone https://github.com/<your-username>/<your-repo>.git
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/<your-username>/<repo-name>.git
 cd face-detection-project
-
-Step 2: Create Virtual Environment
-
-Windows
-
+2️⃣ Create virtual environment
+bash
+Copy code
 python -m venv .venv
-.venv\Scripts\activate
+.venv\Scripts\activate  # Windows
 
-
-macOS/Linux
-
-python3 -m venv .venv
-source .venv/bin/activate
-
-Step 3: Install Required Packages
+# or
+source .venv/bin/activate  # Mac/Linux
+3️⃣ Install dependencies
+bash
+Copy code
 pip install -r requirements.txt
+⚠ Install PyTorch from https://pytorch.org based on your system.
 
-
-Your requirements.txt includes:
-
-torch
-torchvision
-ultralytics
-opencv-python
-numpy
-pillow
-streamlit
-pycocotools
-albumentations
-matplotlib
-tqdm
-
-Step 4: Set Up the Dataset (FDDB)
-
+📥 Dataset Setup (FDDB)
 Download FDDB images
 
 Place them in:
 
+bash
+Copy code
 data/fddb/originalPics/
-
-
 Ensure ellipseList.txt exists
 
-Convert annotations:
+Convert annotations to COCO:
 
+bash
+Copy code
 python src/fddb_to_coco.py
-
-Step 5: Train Faster R-CNN (Optional)
+🧪 Train the Faster R-CNN Model
+bash
+Copy code
 python -m src.train
+Model will be saved to:
 
-
-Model checkpoint saved at:
-
+bash
+Copy code
 outputs/checkpoints/facercnn.pth
-
-Step 6: Run the App
+🌐 Run the Streamlit App
+bash
+Copy code
 streamlit run src/face_detection_app.py
+Features:
 
-🧠 How It Works
+Model switch (YOLOv8 / Faster R-CNN)
 
-Upload or capture an image
+Webcam snapshot detection
 
-Select model:
+Image upload detection
 
-YOLOv8 → Fast
+Crowd counting
 
-Faster R-CNN → Trained model
+Crowd level badges
 
-App detects faces
+Downloadable output image
 
-Counts total people
+🏗️ Future Enhancements
+📈 Live crowd graph
 
-Classifies the crowd level
+💾 Logging crowd count to CSV
 
-Displays results + download option
+🔔 Crowd alerts when level is “High”
 
-📈 Future Enhancements
+👤 Age/Gender estimation
 
-Live video feed with FPS
+🔒 Face blurring for privacy
 
-Real-time crowd alerts
-
-Logging crowd history to CSV
-
-Line charts for occupancy monitoring
-
-Integration with CCTV systems
-
-Age/Gender prediction
-
-Deployment on cloud (Streamlit Cloud / AWS / Hugging Face)
 
 👤 Author
 
