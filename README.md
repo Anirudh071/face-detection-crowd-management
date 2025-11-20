@@ -16,11 +16,9 @@ It combines:
 
 ## 🖼️ **Project Output Screenshot**
 
-> Replace the image path below with your own screenshot uploaded to the GitHub repo.
 
 ![Output Screenshot](Screenshot 2025-11-20 090821.png)
 
-*(Example: detections with bounding boxes + people count + crowd level)*
 
 ---
 
