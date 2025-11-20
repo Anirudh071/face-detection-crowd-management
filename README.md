@@ -17,7 +17,8 @@ It combines:
 ## 🖼️ **Project Output Screenshot**
 
 
-assets/https://github.com/Anirudh071/face-detection-crowd-management/blob/main/Screenshot%202025-11-20%20090821.png
+![Project Output Screenshot](Screenshot%202025-11-20%20090821.png)
+
 
 
 ---
